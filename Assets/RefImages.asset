@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c37f7746917f4760aa00e7ff7fd81dc, type: 3}
   m_Name: RefImages
   m_EditorClassIdentifier: 
-  resourceGroupName: 
+  resourceGroupName: refImgs
   referenceImages:
   - {fileID: 11400000, guid: 997d5fdbf9052a748b8da42656f3361b, type: 2}
