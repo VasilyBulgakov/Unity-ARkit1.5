@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.iOS;
 
-public class GenerateImageAnchor : MonoBehaviour {
+public class GenerateObjectOnImage : MonoBehaviour {
 
 
 	[SerializeField]
@@ -21,28 +21,25 @@ public class GenerateImageAnchor : MonoBehaviour {
 		UnityARSessionNativeInterface.ARImageAnchorRemovedEvent += RemoveImageAnchor;
 
 	}
-
 	void AddImageAnchor(ARImageAnchor arImageAnchor)
 	{
 		Debug.Log ("image anchor added");
 		if (arImageAnchor.referenceImageName == referenceImage.imageName) {
 			Vector3 position = UnityARMatrixOps.GetPosition (arImageAnchor.transform);
 			Quaternion rotation = UnityARMatrixOps.GetRotation (arImageAnchor.transform);
-
-			imageAnchorGO = Instantiate<GameObject> (prefabToGenerate, position, rotation);
+			if(imageAnchorGO == null)
+				imageAnchorGO = Instantiate<GameObject> (prefabToGenerate, position, rotation);
 		}
 	}
-
 	void UpdateImageAnchor(ARImageAnchor arImageAnchor)
 	{
 		Debug.Log ("image anchor updated");
 		if (arImageAnchor.referenceImageName == referenceImage.imageName) {
 			imageAnchorGO.transform.position = UnityARMatrixOps.GetPosition (arImageAnchor.transform);
-			imageAnchorGO.transform.rotation = UnityARMatrixOps.GetRotation (arImageAnchor.transform);
+			//imageAnchorGO.transform.rotation = UnityARMatrixOps.GetRotation (arImageAnchor.transform);
 		}
 
 	}
-
 	void RemoveImageAnchor(ARImageAnchor arImageAnchor)
 	{
 		Debug.Log ("image anchor removed");
@@ -50,7 +47,6 @@ public class GenerateImageAnchor : MonoBehaviour {
 			GameObject.Destroy (imageAnchorGO);
 		}
 	}
-
 	void OnDestroy()
 	{
 		UnityARSessionNativeInterface.ARImageAnchorAddedEvent -= AddImageAnchor;
