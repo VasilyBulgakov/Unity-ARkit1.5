@@ -13,4 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imageName: unitywhiteonblack
   imageTexture: {fileID: 2800000, guid: a3c3072472922104191a4f06b7512cff, type: 3}
-  physicalSize: 0.06
+  physicalSize: 0.24
