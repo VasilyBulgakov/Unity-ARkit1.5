@@ -36,7 +36,7 @@ public class GenerateObjectOnImage : MonoBehaviour {
 		Debug.Log ("image anchor updated");
 		if (arImageAnchor.referenceImageName == referenceImage.imageName) {
 			imageAnchorGO.transform.position = UnityARMatrixOps.GetPosition (arImageAnchor.transform);
-			//imageAnchorGO.transform.rotation = UnityARMatrixOps.GetRotation (arImageAnchor.transform);
+			imageAnchorGO.transform.rotation = UnityARMatrixOps.GetRotation (arImageAnchor.transform);
 		}
 
 	}
