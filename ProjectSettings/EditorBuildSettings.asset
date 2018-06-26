@@ -38,7 +38,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/UnityARKitPlugin/Examples/FaceTracking/FaceDirectionalLightEstimate.unity
     guid: 360fd35caee4f4e069485021a27c0b06
-  - enabled: 1
+  - enabled: 0
     path: Assets/UnityARKitPlugin/Examples/ARKit1.5/UnityARImageAnchor/UnityARImageAnchor.unity
     guid: befc06ba4fe0046439ef5dac5a33c0e7
+  - enabled: 1
+    path: Assets/main.unity
+    guid: a255e28d462d9f945af5a5fe8f901e07
   m_configObjects: {}
