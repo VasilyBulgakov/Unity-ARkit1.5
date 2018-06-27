@@ -155,30 +155,35 @@ namespace UnityEngine.XR.iOS
 			ARPlaneAnchor arPlaneAnchor = serPlaneAnchor;
 			UnityARSessionNativeInterface.RunRemoveAnchorCallbacks (arPlaneAnchor);
 		}
+		
 
 		void ReceiveRemoteScreenYTex(MessageEventArgs mea)
 		{
 			if (!bTexturesInitialized)
-				return;
-			remoteScreenYTex.LoadRawTextureData(mea.data);
-			remoteScreenYTex.Apply ();
-			UnityARVideo arVideo = Camera.main.GetComponent<UnityARVideo>();
-			if (arVideo) {
-				arVideo.SetYTexure(remoteScreenYTex);
-			}
+                return;
+
+            //remoteScreenYTex.LoadRawTextureData(mea.data);
+            remoteScreenYTex.LoadRawTextureData(ByteConverter.ConvertByteDecompress(mea.data));
+            remoteScreenYTex.Apply ();
+            UnityARVideo arVideo = Camera.main.GetComponent<UnityARVideo>();
+            if (arVideo) {
+                arVideo.SetYTexure(remoteScreenYTex);
+            }
 
 		}
 
 		void ReceiveRemoteScreenUVTex(MessageEventArgs mea)
 		{
 			if (!bTexturesInitialized)
-				return;
-			remoteScreenUVTex.LoadRawTextureData(mea.data);
-			remoteScreenUVTex.Apply ();
-			UnityARVideo arVideo = Camera.main.GetComponent<UnityARVideo>();
-			if (arVideo) {
-				arVideo.SetUVTexure(remoteScreenUVTex);
-			}
+                return;
+ 
+            //remoteScreenUVTex.LoadRawTextureData(mea.data);
+            remoteScreenUVTex.LoadRawTextureData(ByteConverter.ConvertByteDecompress(mea.data));
+            remoteScreenUVTex.Apply ();
+            UnityARVideo arVideo = Camera.main.GetComponent<UnityARVideo>();
+            if (arVideo) {
+                arVideo.SetUVTexure(remoteScreenUVTex);
+            }
 
 		}
 

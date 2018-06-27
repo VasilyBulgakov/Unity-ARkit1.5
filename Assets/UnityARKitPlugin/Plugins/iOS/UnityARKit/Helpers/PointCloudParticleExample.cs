@@ -12,11 +12,19 @@ public class PointCloudParticleExample : MonoBehaviour {
     private ParticleSystem currentPS;
     private ParticleSystem.Particle [] particles;
 
+
+    
+	Mesh mesh;
+
 	// Use this for initialization
 	void Start () {
         UnityARSessionNativeInterface.ARFrameUpdatedEvent += ARFrameUpdated;
         currentPS = Instantiate (pointCloudParticlePrefab);
         frameUpdated = false;
+        
+        
+		// mesh = new Mesh();
+        // GetComponent<MeshFilter>().mesh = mesh;
 	}
 	
     public void ARFrameUpdated(UnityARCamera camera)
@@ -26,7 +34,7 @@ public class PointCloudParticleExample : MonoBehaviour {
     }
 
 	// Update is called once per frame
-	void Update () {
+	void Update () {        
         if (frameUpdated) {
             if (m_PointCloudData != null && m_PointCloudData.Length > 0 && maxPointsToShow > 0) {
                 int numParticles = Mathf.Min (m_PointCloudData.Length, maxPointsToShow);
@@ -39,6 +47,7 @@ public class PointCloudParticleExample : MonoBehaviour {
                     index++;
                     if (index >= numParticles) break;
                 }
+                //CreateMesh(m_PointCloudData);
                 currentPS.SetParticles (particles, numParticles);
             } else {
                 ParticleSystem.Particle[] particles = new ParticleSystem.Particle[1];
@@ -48,4 +57,15 @@ public class PointCloudParticleExample : MonoBehaviour {
             frameUpdated = false;
         }
 	}
+    void CreateMesh( Vector3[] points) {        
+        int[] indecies = new int[points.Length];
+
+        for(int i=0;i<points.Length;++i) {            
+            indecies[i] = i;           
+        } 
+
+        mesh.vertices = points;
+        mesh.SetIndices(indecies, MeshTopology.Lines, 0);
+
+    }
 }

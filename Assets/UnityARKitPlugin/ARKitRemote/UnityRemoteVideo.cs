@@ -3,8 +3,56 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+using System.IO;
+using System.IO.Compression;
 namespace UnityEngine.XR.iOS
 {
+
+	public class ByteConverter
+	{
+		/// <summary>
+		/// Compress using deflate.
+		/// </summary>
+		/// <returns>The byte compress.</returns>
+		/// <param name="source">Source.</param>
+		public static byte[] ConvertByteCompress(byte[] source)
+		{
+			using (MemoryStream ms = new MemoryStream())
+			using (DeflateStream compressedDStream = new DeflateStream(ms, CompressionMode.Compress, true))
+			{
+				compressedDStream.Write(source, 0, source.Length);
+
+				compressedDStream.Close();
+
+				byte[] destination = ms.ToArray();
+
+				Debug.Log(source.Length.ToString() + " vs " + ms.Length.ToString());
+
+				return destination;
+			}
+		}
+
+		/// <summary>
+		/// Decompress using deflate.
+		/// </summary>
+		/// <returns>The byte decompress.</returns>
+		/// <param name="source">Source.</param>
+		public static byte[] ConvertByteDecompress(byte[] source)
+		{
+			using (MemoryStream input = new MemoryStream(source))
+			using (MemoryStream output = new MemoryStream())
+			using (DeflateStream decompressedDstream = new DeflateStream(input, CompressionMode.Decompress))
+			{
+				decompressedDstream.CopyTo(output);
+
+				byte[] destination = output.ToArray();
+
+				Debug.Log("Decompress Size : " + output.Length);
+
+				return destination;
+			}
+		}
+	}
 
 	public class UnityRemoteVideo : MonoBehaviour
 	{
@@ -104,7 +152,12 @@ namespace UnityEngine.XR.iOS
 			m_Session.SetCapturePixelData (true, PinByteArray(ref m_pinnedYArray,YByteArrayForFrame(currentFrameIndex)), PinByteArray(ref m_pinnedUVArray,UVByteArrayForFrame(currentFrameIndex)));
 
 			connectToEditor.SendToEditor (ConnectionMessageIds.screenCaptureYMsgId, YByteArrayForFrame(1-currentFrameIndex));
+			
+			connectToEditor.SendToEditor(ConnectionMessageIds.screenCaptureYMsgId, ByteConverter.ConvertByteCompress(YByteArrayForFrame(1 - currentFrameIndex)));
+
 			connectToEditor.SendToEditor (ConnectionMessageIds.screenCaptureUVMsgId, UVByteArrayForFrame(1-currentFrameIndex));
+		//	connectToEditor.SendToEditor(ConnectionMessageIds.screenCaptureUVMsgId, ByteConverter.ConvertByteCompress(UVByteArrayForFrame(1 - currentFrameIndex)));
+            
 			
 		}
 		#endif
